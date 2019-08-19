@@ -7,16 +7,16 @@ FROM debian:buster-slim as builder
 RUN apt-get update && apt-get install -y curl gnupg
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 0x1657198823e52a61  && \
     echo "deb http://download.zerotier.com/debian/buster buster main" > /etc/apt/sources.list.d/zerotier.list
-RUN apt-get update && apt-get install -y zerotier-one=1.2.12
+RUN apt-get update && apt-get install -y zerotier-one=1.4.2-2
 RUN curl https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/ext/installfiles/linux/zerotier-containerized/main.sh > /var/lib/zerotier-one/main.sh
 
 FROM alpine:latest
-LABEL version="1.2.12"
+LABEL version="1.4.2"
 LABEL description="Containerized ZeroTier One for use on CoreOS or other Docker-only Linux hosts."
 
 # Uncomment to build in container
 # RUN apk add --update alpine-sdk linux-headers
-RUN apk add --update libgcc libstdc++
+RUN apk add --update libgcc libc6-compat libstdc++
 
 # ZeroTier relies on UDP port 9993
 EXPOSE 9993/udp
